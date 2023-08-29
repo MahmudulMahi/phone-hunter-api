@@ -11,6 +11,19 @@ const displayPhones = phones => {
   // create
   const phoneContainer=document.getElementById("phone-container")
   phoneContainer.textContent=""
+
+  // display show all button
+  const showAllContainer=document.getElementById('show-all-container')
+
+  if(phones.length >12){
+    showAllContainer.classList.remove('hidden')
+  }
+  else{
+    showAllContainer.classList.add('hidden')
+  }
+
+  // display 10 phone
+  phones =phones.slice(0,10)
   phones.forEach(phone => {
     // console.log(phone)
     // create a div
@@ -38,6 +51,12 @@ const handelSearch=()=>{
   const serachField =document.getElementById('search-field')
   const searchText=serachField.value
   // console.log(searchText)
+  loadPhone(searchText)
+}
+
+const handelSearch2=()=>{
+  const serachField=document.getElementById('srarch-field2')
+  const searchText =serachField.value
   loadPhone(searchText)
 }
 // loadPhone()
