@@ -1,4 +1,4 @@
-const loadPhone = async (searchText,isShowAll) => {
+const loadPhone = async (searchText='13',isShowAll) => {
   const res = await fetch(`https://openapi.programming-hero.com/api/phones?search=${searchText}`)
   const data = await res.json();
   const phones = data.data
@@ -39,7 +39,7 @@ const displayPhones = (phones,isShowAll) => {
       <h2 class="card-title">${phone.phone_name}</h2>
       <p>If a dog chews shoes whose shoes does he choose?</p>
       <div class="card-actions justify-end">
-        <button onclick="handelShowDetail('${phone.slug}')" class="btn btn-primary">Buy Now</button>
+        <button onclick="handelShowDetail('${phone.slug}');show_details.showModal()" class="btn btn-primary">Buy Now</button>
       </div>
     </div>`
 
@@ -51,11 +51,29 @@ const displayPhones = (phones,isShowAll) => {
 }
 
 const handelShowDetail= async (id)=>{
-  console.log('clicked',id)
+  // console.log('clicked',id)
 
   const res =await fetch(`https://openapi.programming-hero.com/api/phone/${id}`)
   const data =await res.json();
+  const phone =data.data
   console.log(data)
+  showPhoneDetail(phone)
+}
+const showPhoneDetail=(phone)=>{
+  // show the model
+  console.log(phone)
+  const phoneName =document.getElementById('phone-name')
+  phoneName.innerText=phone.name
+
+  const showDetailsContainer=document.getElementById('show-details-container')
+  showDetailsContainer.innerHTML=`
+  <img src="${phone.image}" alt="" />
+  <p><span>Storage:</span>${phone?.mainFeatures?.storage}</p>
+  <p><span>GPS:</span>${phone.others?.GPS || 'No GPS available'}</p>
+  <p><span>GPS:</span>${phone.others?.GPS ? phone.others.GPS : 'No GPS available in this device'}</p>
+  
+  `
+  show_details.showModal()
 }
 
 // hendel search button
@@ -88,4 +106,4 @@ const toggleLoadSpinner=(isload)=>{
 const handelShowAll=()=>{
   handelSearch(true)
 }
-// loadPhone()
+loadPhone()
